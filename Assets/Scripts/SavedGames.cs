@@ -32,28 +32,34 @@ public class SavedGames : MonoBehaviour
     {
         foreach(DirectoryInfo d in directories)
         {
-            GameObject cartridge = Instantiate(gamePrefab,transform);
-            cartridge.transform.position = transform.position;
-            foreach (FileInfo f in d.GetFiles())
+            if (File.Exists(d.FullName + "/data.json"))
             {
-                if(f.Name == "data.json")
+                GameObject cartridge = Instantiate(gamePrefab, transform);
+                cartridge.transform.position = transform.position;
+                foreach (FileInfo f in d.GetFiles())
                 {
-                    string json = File.ReadAllText(f.FullName);
-                    JsonGame data = JsonUtility.FromJson<JsonGame>(json);
-                    Debug.Log(data.Name);
-                    cartridge.GetComponent<Game>().Name = data.Name;
-                    cartridge.name = data.Name;
-                    cartridge.GetComponent<Game>().path = data.Path;
-                    cartridge.GetComponent <Game>().desc = data.Description;
+                
                     
-                }
-                if (f.Name == "Icon.png")
-                {
-                    byte[] imageBytes = File.ReadAllBytes(f.FullName);
-                    Texture2D tx = new Texture2D(4, 3);
-                    tx.LoadImage(imageBytes);
+                    if (f.Name == "data.json")
+                    {
+                        
+                        string json = File.ReadAllText(f.FullName);
+                        JsonGame data = JsonUtility.FromJson<JsonGame>(json);
+                        Debug.Log(data.Name);
+                        cartridge.GetComponent<Game>().Name = data.Name;
+                        cartridge.name = data.Name;
+                        cartridge.GetComponent<Game>().path = Application.persistentDataPath + "/Saved Games/" + data.Path;
+                        cartridge.GetComponent<Game>().desc = data.Description;
 
-                    cartridge.GetComponent<Game>().icon = tx;
+                    }
+                    if (f.Name == "Icon.png")
+                    {
+                        byte[] imageBytes = File.ReadAllBytes(f.FullName);
+                        Texture2D tx = new Texture2D(4, 3);
+                        tx.LoadImage(imageBytes);
+
+                        cartridge.GetComponent<Game>().icon = tx;
+                    }
                 }
             }
         }
