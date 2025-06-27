@@ -6,6 +6,7 @@ public class GameRotation : MonoBehaviour
 {
     GameObject currentGame;
     public GameObject gameSpawner;
+    public GameObject DailygameSpawner;
     float rotationX = 0f;
     float rotationY = 0f;
     public GameObject TVlight;
@@ -53,8 +54,16 @@ public class GameRotation : MonoBehaviour
         {
             Cursor.visible = true;
             Cursor.lockState = CursorLockMode.Confined;
-            currentGame.transform.position = gameSpawner.transform.position;
-            currentGame.transform.rotation = gameSpawner.transform.rotation;
+            if(currentGame.GetComponent<Game>().isDaily)
+            {
+                currentGame.transform.position = DailygameSpawner.transform.position;
+                currentGame.transform.rotation = DailygameSpawner.transform.rotation;
+            }
+            else
+            {
+                currentGame.transform.position = gameSpawner.transform.position;
+                currentGame.transform.rotation = gameSpawner.transform.rotation;
+            }
             currentGame.GetComponent<BoxCollider>().enabled = true;
             currentGame.GetComponent<Rigidbody>().useGravity = true;
             gameObject.GetComponent<GameInteraction>().enabled = true;
@@ -68,8 +77,16 @@ public class GameRotation : MonoBehaviour
         TVlight.SetActive(true);
         yield return new WaitForSeconds(3f);
 
-        currentGame.transform.position = gameSpawner.transform.position;
-        currentGame.transform.rotation = gameSpawner.transform.rotation;
+        if (currentGame.GetComponent<Game>().isDaily)
+        {
+            currentGame.transform.position = DailygameSpawner.transform.position;
+            currentGame.transform.rotation = DailygameSpawner.transform.rotation;
+        }
+        else
+        {
+            currentGame.transform.position = gameSpawner.transform.position;
+            currentGame.transform.rotation = gameSpawner.transform.rotation;
+        }
 
         Process game = new Process();
         game.StartInfo.FileName = currentGame.GetComponent<Game>().path;

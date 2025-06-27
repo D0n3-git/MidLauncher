@@ -4,6 +4,7 @@ using static UnityEngine.GraphicsBuffer;
 public class GameInteraction : MonoBehaviour
 {
     public GameObject GameViewPoint;
+    public GameObject DailyGameViewPoint;
     void Start()
     {
 
@@ -27,7 +28,14 @@ public class GameInteraction : MonoBehaviour
                     GameObject currentGame = hit.collider.gameObject;
                     currentGame.GetComponent<BoxCollider>().enabled = false;
                     currentGame.GetComponent<Rigidbody>().useGravity = false;
-                    currentGame.transform.position = GameViewPoint.transform.position;
+                    if (currentGame.GetComponent<Game>().isDaily)
+                    {
+                        currentGame.transform.position = DailyGameViewPoint.transform.position;
+                    }
+                    else
+                    {
+                        currentGame.transform.position = GameViewPoint.transform.position;
+                    }
                     gameObject.GetComponent<GameRotation>().enabled = true;
                     gameObject.GetComponent<GameRotation>().SetCurrentGame(currentGame);
                     gameObject.GetComponent<CameraScroller>().enabled = false;

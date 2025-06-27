@@ -50,7 +50,7 @@ public class SavedGames : MonoBehaviour
                         cartridge.name = data.Name;
                         cartridge.GetComponent<Game>().path = Application.persistentDataPath + "/Saved Games/" + data.Path;
                         cartridge.GetComponent<Game>().desc = data.Description;
-
+                        cartridge.GetComponent <Game>().isDaily = false;
                     }
                     if (f.Name == "Icon.png")
                     {
