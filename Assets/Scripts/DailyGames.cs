@@ -8,38 +8,44 @@ public class DailyGames : MonoBehaviour
     FileInfo currentDailyGameZip;
     public GameObject gamePrefab;
     DirectoryInfo currentDailyGameDir;
+
     void Start()
     {
-        currentDailyGameZip = new FileInfo(Application.persistentDataPath+"/DGame.zip");
+
+        currentDailyGameZip = new FileInfo(Directory.GetFiles(Application.persistentDataPath, "*zip")[0]);  
+        Debug.Log(currentDailyGameZip.FullName);
         if (Directory.Exists(Application.persistentDataPath + "/DGame"))
         {
-            Directory.Delete(Application.persistentDataPath + "/DGame",true);
+            Directory.Delete(Application.persistentDataPath + "/DGame", true);
             Debug.Log("DeletedOldDir");
 
         }
-        ZipFile.ExtractToDirectory(Application.persistentDataPath + "/DGame.zip",Application.persistentDataPath + "/DGame");
+        ZipFile.ExtractToDirectory(currentDailyGameZip.FullName, Application.persistentDataPath + "/DGame");
         currentDailyGameDir = new DirectoryInfo(Application.persistentDataPath + "/DGame");
         //if (File.Exists(Application.persistentDataPath + "/DGame/data.json"))
         //{
+
+        if (File.Exists(currentDailyGameDir.GetDirectories()[0].FullName + "/data.json"))
+        {
             GameObject cartridge = Instantiate(gamePrefab, transform);
             cartridge.transform.position = transform.position;
             foreach (FileInfo f in currentDailyGameDir.GetDirectories()[0].GetFiles())
             {
                 if (f.Name == "data.json")
                 {
-                    Debug.Log("found json in there: "+f.FullName);
+                    Debug.Log("found json in there: " + f.FullName);
 
                     string json = File.ReadAllText(f.FullName);
                     JsonGame data = JsonUtility.FromJson<JsonGame>(json);
-                    Debug.Log(data.Name);
-                    cartridge.GetComponent<Game>().Name = data.Name;
-                    cartridge.name = data.Name;
-                    cartridge.GetComponent<Game>().path = Application.persistentDataPath + "/Saved Games/" + data.Path;
-                    cartridge.GetComponent<Game>().desc = data.Description;
-                    cartridge.GetComponent<Game>().isDaily = true; 
+                    Debug.Log(data.name);
+                    cartridge.GetComponent<Game>().Name = data.name;
+                    cartridge.name = data.name;
+                    cartridge.GetComponent<Game>().path = Application.persistentDataPath + "/DGame/" + data.path;
+                    cartridge.GetComponent<Game>().desc = data.description;
+                    cartridge.GetComponent<Game>().isDaily = true;
 
-            }
-            else
+                }
+                else
                 {
                     Debug.Log("!found json in there: " + f.FullName);
                 }
@@ -53,6 +59,7 @@ public class DailyGames : MonoBehaviour
                 }
             }
         }
+    }
     //}
 
     // Update is called once per frame

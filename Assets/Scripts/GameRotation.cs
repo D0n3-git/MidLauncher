@@ -10,7 +10,7 @@ public class GameRotation : MonoBehaviour
     float rotationX = 0f;
     float rotationY = 0f;
     public GameObject TVlight;
-
+    bool isStarted =false;
     void Start()
     {
         Vector3 startAngles = currentGame.transform.eulerAngles;
@@ -37,20 +37,24 @@ public class GameRotation : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.KeypadEnter))
             {
                 Cursor.visible = true;
-
+                isStarted = true;
                 var cameraScroller = gameObject.GetComponent<CameraScroller>();
                 cameraScroller.enabled = true;
-                cameraScroller.MoveTo(1);
+                cameraScroller.Teleport(1);
                 cameraScroller.enabled = false;
                 StartCoroutine(LaunchGameSequence());
             }
             if (Input.GetKeyDown(KeyCode.Delete))
             {
-                currentGame.GetComponentInParent<SavedGames>().DeleteGame(currentGame);
+                currentGame.GetComponentInParent<SavedGames>().DeleteGame(currentGame); 
+            }
+            if (Input.GetKeyDown(KeyCode.F)&&gameObject.GetComponent<CameraScroller>().GetPoint() ==2)
+            {
+                gameObject.GetComponent<SaveDailyGame>().SaveGame(currentGame.GetComponent<Game>());
             }
         }
 
-        if (Input.GetMouseButtonDown(1))
+        if (Input.GetMouseButtonDown(1)&&!isStarted)
         {
             Cursor.visible = true;
             Cursor.lockState = CursorLockMode.Confined;
@@ -109,6 +113,7 @@ public class GameRotation : MonoBehaviour
         finally
         {
             game.Dispose();
+            isStarted = false;
         }
 
         enabled = false;

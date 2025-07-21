@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class JsonGame
 {
-    public string Name;
-    public string Path;
-    public string Description;
+    public string name;
+    public string path;
+    public string description;
 }
 
 public class SavedGames : MonoBehaviour
@@ -25,7 +25,6 @@ public class SavedGames : MonoBehaviour
         root.Create();
         directories = root.GetDirectories();
         UpdateGameList();
-        Debug.Log(root.FullName);
     }
 
     public void UpdateGameList()
@@ -45,11 +44,10 @@ public class SavedGames : MonoBehaviour
                         
                         string json = File.ReadAllText(f.FullName);
                         JsonGame data = JsonUtility.FromJson<JsonGame>(json);
-                        Debug.Log(data.Name);
-                        cartridge.GetComponent<Game>().Name = data.Name;
-                        cartridge.name = data.Name;
-                        cartridge.GetComponent<Game>().path = Application.persistentDataPath + "/Saved Games/" + data.Path;
-                        cartridge.GetComponent<Game>().desc = data.Description;
+                        cartridge.GetComponent<Game>().Name = data.name;
+                        cartridge.name = data.name;
+                        cartridge.GetComponent<Game>().path = Application.persistentDataPath + "/Saved Games/" + data.path;
+                        cartridge.GetComponent<Game>().desc = data.description;
                         cartridge.GetComponent <Game>().isDaily = false;
                     }
                     if (f.Name == "Icon.png")
@@ -64,10 +62,13 @@ public class SavedGames : MonoBehaviour
             }
         }
     }
-    public void DeleteGame(GameObject game)
+public void DeleteGame(GameObject game)
     {
         //DirectoryInfo deleteDir = new DirectoryInfo(game.GetComponent<Game>().path.Substring(0, game.GetComponent<Game>().path.LastIndexOf("\\")));
-        Directory.Delete(game.GetComponent<Game>().path.Substring(0, game.GetComponent<Game>().path.LastIndexOf("\\")),true);
+        string path = game.GetComponent<Game>().path.Substring(0, game.GetComponent<Game>().path.LastIndexOf("/"));
+        Directory.Delete(path.Substring(0, path.LastIndexOf("/")),true);
+        //Debug.Log(path.Substring(0, path.LastIndexOf("/")));
         UpdateGameList();
     }
 }
+

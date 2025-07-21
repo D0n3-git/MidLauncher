@@ -10,18 +10,28 @@ public class CameraScroller : MonoBehaviour
     public TMP_Text HelpTMP;
     public GameObject UI;
     public GameObject HelpLamp;
+    public float Mtime = 1;
+    public float Rspeed = 1;
+    int index;
+    Vector3 targetPosition;
+    Quaternion targetRotation;
+    Vector3 moveVelocity;
+    bool isMoving;
     void Start()
     {
         onStart = true;
-        transform.position =points[0].position;
-        transform.rotation = points[0].rotation;
+        MoveTo(0);
         Cursor.lockState = CursorLockMode.Confined;
 
     }
     public void MoveTo(int index)
     {
-        transform.position = points[index].position;
-        transform.rotation = points[index].rotation;
+        //transform.position = points[index].position;
+        targetPosition = points[index].position;
+        targetRotation = points[index].rotation;
+        isMoving = true;
+        this.index = index;
+        HelpTMP.text = help[index];
         if (index != 0)
         {
             onStart = false;
@@ -32,6 +42,7 @@ public class CameraScroller : MonoBehaviour
     {
         if (onStart)
         {
+            index = 0;
             HelpTMP.text = help[0];
         }
             if (Input.GetMouseButtonDown(0))
@@ -41,26 +52,18 @@ public class CameraScroller : MonoBehaviour
                 if (Physics.Raycast(ray, out RaycastHit hit))
                 {
                     if (hit.collider.CompareTag("TV"))
-                    {            
-                        HelpTMP.text = help[1];
-                        transform.position = points[1].position;
-                        transform.rotation = points[1].rotation;
-                        onStart = false;
+                    {
+                        index = 1;
                     }
                     if (hit.collider.CompareTag("DeliveryBox"))
                     {
-                        HelpTMP.text = help[2];
-                        transform.position = points[2].position;
-                        transform.rotation = points[2].rotation;
-                        onStart = false;
+                        index = 2;
                     }
                     if (hit.collider.CompareTag("Games"))
                     {
-                        HelpTMP.text = help[3];
-                        transform.position = points[3].position;
-                        transform.rotation = points[3].rotation;
-                        onStart = false;
+                        index = 3;
                     }
+                    MoveTo(index);
                     if (hit.collider.CompareTag("HelpLamp"))
                     {
                         Debug.Log("Lampew!");
@@ -73,6 +76,21 @@ public class CameraScroller : MonoBehaviour
         {
             Start();
         }
-        
+        if(isMoving)
+        {
+            transform.position = Vector3.SmoothDamp(transform.position,targetPosition,ref moveVelocity,Mtime);
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime*Rspeed);
+        }
+    }
+    public void Teleport(int index)
+    {
+        transform.position = points[index].position;
+        transform.rotation = points[index].rotation;
+        this.index = index;
+        HelpTMP.text = help[index];
+    }
+    public int GetPoint()
+    {
+        return index;
     }
 }

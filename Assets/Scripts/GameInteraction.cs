@@ -42,7 +42,7 @@ public class GameInteraction : MonoBehaviour
                     gameObject.GetComponent<GameInteraction>().enabled = false;                     
                 }
             }           
-        }        
+        }
     } 
 }
 
