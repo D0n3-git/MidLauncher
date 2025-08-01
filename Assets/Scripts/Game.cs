@@ -10,15 +10,11 @@ public class Game : MonoBehaviour
     public Texture2D icon;
     public string path;
     public bool isDaily;
+    //запускается на старте программы
     void Start()
     {
         transform.GetChild(1).GetComponent<TextMeshPro>().text = Name;
         transform.GetChild(2).GetComponent<MeshRenderer>().material.SetTexture("_BaseMap", icon);
         transform.GetChild(3).GetComponent<TextMeshPro>().text = desc;
-    }
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }

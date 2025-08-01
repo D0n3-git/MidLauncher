@@ -5,14 +5,10 @@ public class GameInteraction : MonoBehaviour
 {
     public GameObject GameViewPoint;
     public GameObject DailyGameViewPoint;
-    void Start()
-    {
-
-    }
-    // Update is called once per frame
+    //повторяется в течении работы программы
     void Update()
     {
-        if (Input.GetMouseButtonDown(0) && !gameObject.GetComponent<CameraScroller>().onStart)
+        if (Input.GetMouseButtonDown(0) && gameObject.GetComponent<CameraScroller>().GetPoint()!=0)
         {
 
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);

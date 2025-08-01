@@ -11,6 +11,7 @@ public class GameRotation : MonoBehaviour
     float rotationY = 0f;
     public GameObject TVlight;
     bool isStarted =false;
+    //запускается на старте программы
     void Start()
     {
         Vector3 startAngles = currentGame.transform.eulerAngles;
@@ -18,14 +19,14 @@ public class GameRotation : MonoBehaviour
         rotationY = startAngles.x;
 
     }
-
+    //задание игры для взаимодействия
     public void SetCurrentGame(GameObject game)
     {
         currentGame = game;
     }
-
+    //повторяется в течении работы программы
     void Update()
-    {
+    {   
         if (!gameObject.GetComponent<CameraScroller>().onStart)
         {
             float mouseX = Input.GetAxis("Mouse X") * 180 * Time.deltaTime;
@@ -75,7 +76,7 @@ public class GameRotation : MonoBehaviour
             enabled = false;
         }
     }
-
+    //запуск игры
     IEnumerator LaunchGameSequence()
     {
         TVlight.SetActive(true);

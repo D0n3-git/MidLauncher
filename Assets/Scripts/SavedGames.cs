@@ -11,14 +11,13 @@ public class JsonGame
 
 public class SavedGames : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     DirectoryInfo root;
     
     DirectoryInfo[] directories;
     FileInfo file;
     public GameObject gamePrefab;
     JsonGame data;
-
+    //запускается на старте программы
     void Start()
     {
         root = new DirectoryInfo(Application.persistentDataPath + "/Saved Games");
@@ -26,7 +25,7 @@ public class SavedGames : MonoBehaviour
         directories = root.GetDirectories();
         UpdateGameList();
     }
-
+    //обновляет список сохраненных игр
     public void UpdateGameList()
     {
         foreach(DirectoryInfo d in directories)
@@ -41,7 +40,6 @@ public class SavedGames : MonoBehaviour
                     
                     if (f.Name == "data.json")
                     {
-                        
                         string json = File.ReadAllText(f.FullName);
                         JsonGame data = JsonUtility.FromJson<JsonGame>(json);
                         cartridge.GetComponent<Game>().Name = data.name;
@@ -55,7 +53,6 @@ public class SavedGames : MonoBehaviour
                         byte[] imageBytes = File.ReadAllBytes(f.FullName);
                         Texture2D tx = new Texture2D(4, 3);
                         tx.LoadImage(imageBytes);
-
                         cartridge.GetComponent<Game>().icon = tx;
                     }
                 }
@@ -64,10 +61,8 @@ public class SavedGames : MonoBehaviour
     }
 public void DeleteGame(GameObject game)
     {
-        //DirectoryInfo deleteDir = new DirectoryInfo(game.GetComponent<Game>().path.Substring(0, game.GetComponent<Game>().path.LastIndexOf("\\")));
         string path = game.GetComponent<Game>().path.Substring(0, game.GetComponent<Game>().path.LastIndexOf("/"));
         Directory.Delete(path.Substring(0, path.LastIndexOf("/")),true);
-        //Debug.Log(path.Substring(0, path.LastIndexOf("/")));
         UpdateGameList();
     }
 }

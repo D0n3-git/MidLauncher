@@ -4,8 +4,7 @@ using UnityEngine;
 public class CameraScroller : MonoBehaviour
 {
     public Transform[] points;
-    public float speed = 1;
-    public bool onStart;
+    public bool onStart; 
     public string[] help;
     public TMP_Text HelpTMP;
     public GameObject UI;
@@ -17,32 +16,26 @@ public class CameraScroller : MonoBehaviour
     Quaternion targetRotation;
     Vector3 moveVelocity;
     bool isMoving;
+    //запускается на старте программы
     void Start()
     {
-        onStart = true;
         MoveTo(0);
         Cursor.lockState = CursorLockMode.Confined;
-
     }
+    //задание точки для плавного перемещение
     public void MoveTo(int index)
     {
-        //transform.position = points[index].position;
         targetPosition = points[index].position;
         targetRotation = points[index].rotation;
         isMoving = true;
         this.index = index;
         HelpTMP.text = help[index];
-        if (index != 0)
-        {
-            onStart = false;
-        }
     }
-    // Update is called once per frame
+    //повторяется в течении работы программы
     void Update()
     {
-        if (onStart)
+        if (index==0)
         {
-            index = 0;
             HelpTMP.text = help[0];
         }
             if (Input.GetMouseButtonDown(0))
@@ -82,6 +75,7 @@ public class CameraScroller : MonoBehaviour
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime*Rspeed);
         }
     }
+    //мнговенное перемещение в точку
     public void Teleport(int index)
     {
         transform.position = points[index].position;
@@ -89,6 +83,7 @@ public class CameraScroller : MonoBehaviour
         this.index = index;
         HelpTMP.text = help[index];
     }
+    //получение текщего положения пользователя
     public int GetPoint()
     {
         return index;
