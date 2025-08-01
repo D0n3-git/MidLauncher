@@ -9,7 +9,6 @@ using Unity.VisualScripting;
 using UnityEngine;
 using Debug = UnityEngine.Debug;
 using static UnityEngine.Rendering.DebugUI.Table;
-
 public class DailyGameUpdate : MonoBehaviour
 {
     private string downloadUrl = "http://194.87.213.90/down.php";
@@ -22,7 +21,7 @@ public class DailyGameUpdate : MonoBehaviour
     public GameObject UI;
     StreamWriter sw;
     StreamReader sr;
-    //запускается на старте программы
+    //Г§Г ГЇГіГ±ГЄГ ГҐГІГ±Гї Г­Г  Г±ГІГ Г°ГІГҐ ГЇГ°Г®ГЈГ°Г Г¬Г¬Г»
     void Start()
     {
         persistentPath = Application.persistentDataPath;
@@ -32,7 +31,6 @@ public class DailyGameUpdate : MonoBehaviour
             File.Create(persistentPath + "/timeInfo.txt").Close();
         }
         sr = new StreamReader(persistentPath + "/timeInfo.txt");
-        
         UI.SetActive(false);
         cts = new CancellationTokenSource();
         //File.Create(persistentPath + "/daily_game_temp.zip");
@@ -54,7 +52,6 @@ public class DailyGameUpdate : MonoBehaviour
     }
     void OnApplicationQuit()
     {
-        
         Debug.Log("Download canceled");
         cts.Cancel();
     }
@@ -65,7 +62,7 @@ public class DailyGameUpdate : MonoBehaviour
             cts.Dispose();
         }
     }
-    //загрузка игры дня 
+    //Г§Г ГЈГ°ГіГ§ГЄГ  ГЁГЈГ°Г» Г¤Г­Гї 
     async void CheckAndDownloadDailyGame(CancellationToken token)
     {
         Debug.Log("[DailyGameUpdate] Start game update proverk...");
@@ -83,10 +80,8 @@ public class DailyGameUpdate : MonoBehaviour
                 return;
             }
         }
-
         Debug.Log("[DailyGameUpdate] Start download: " + downloadUrl);
         UI.SetActive(true);
-
         using (HttpClient client = new HttpClient())
         {
             try
@@ -107,9 +102,7 @@ public class DailyGameUpdate : MonoBehaviour
                 using (var response = await client.GetAsync(downloadUrl, HttpCompletionOption.ResponseHeadersRead, token))
                 {
                     response.EnsureSuccessStatusCode();
-
                     var totalLength = response.Content.Headers.ContentLength ?? -1L;
-
                     using (var contentStream = await response.Content.ReadAsStreamAsync())
                     using (var fileStream = new FileStream(tempZipPath, FileMode.Create, FileAccess.Write, FileShare.None))
                     {
@@ -120,10 +113,8 @@ public class DailyGameUpdate : MonoBehaviour
                         while ((bytesRead = await contentStream.ReadAsync(buffer, 0, buffer.Length)) > 0)
                         {
                             token.ThrowIfCancellationRequested();
-
                             await fileStream.WriteAsync(buffer, 0, bytesRead);
                             totalRead += bytesRead;
-
                             if (totalLength > 0)
                             {
                                 float progress = (float)totalRead / totalLength * 100f;
@@ -161,10 +152,9 @@ public class DailyGameUpdate : MonoBehaviour
             {
                 Debug.LogError("Error during download: " + ex.Message);
             }
-
         }
     }
-        //повторяется в течении работы программы
+        //ГЇГ®ГўГІГ®Г°ГїГҐГІГ±Гї Гў ГІГҐГ·ГҐГ­ГЁГЁ Г°Г ГЎГ®ГІГ» ГЇГ°Г®ГЈГ°Г Г¬Г¬Г»
 void Update()
     {
         TimeSpan now = DateTime.UtcNow.TimeOfDay;
