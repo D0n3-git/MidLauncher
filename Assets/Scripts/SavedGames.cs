@@ -1,23 +1,20 @@
 using System.IO;
 using Unity.VisualScripting;
 using UnityEngine;
-
 public class JsonGame
 {
     public string name;
     public string path;
     public string description;
 }
-
 public class SavedGames : MonoBehaviour
 {
     DirectoryInfo root;
-    
     DirectoryInfo[] directories;
     FileInfo file;
     public GameObject gamePrefab;
     JsonGame data;
-    //запускается на старте программы
+    //Г§Г ГЇГіГ±ГЄГ ГҐГІГ±Гї Г­Г  Г±ГІГ Г°ГІГҐ ГЇГ°Г®ГЈГ°Г Г¬Г¬Г»
     void Start()
     {
         root = new DirectoryInfo(Application.persistentDataPath + "/Saved Games");
@@ -25,7 +22,7 @@ public class SavedGames : MonoBehaviour
         directories = root.GetDirectories();
         UpdateGameList();
     }
-    //обновляет список сохраненных игр
+    //Г®ГЎГ­Г®ГўГ«ГїГҐГІ Г±ГЇГЁГ±Г®ГЄ Г±Г®ГµГ°Г Г­ГҐГ­Г­Г»Гµ ГЁГЈГ°
     public void UpdateGameList()
     {
         foreach(DirectoryInfo d in directories)
@@ -36,8 +33,6 @@ public class SavedGames : MonoBehaviour
                 cartridge.transform.position = transform.position;
                 foreach (FileInfo f in d.GetFiles())
                 {
-                
-                    
                     if (f.Name == "data.json")
                     {
                         string json = File.ReadAllText(f.FullName);
@@ -66,4 +61,3 @@ public void DeleteGame(GameObject game)
         UpdateGameList();
     }
 }
-
