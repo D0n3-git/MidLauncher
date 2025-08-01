@@ -1,7 +1,6 @@
 using System.Diagnostics;
 using UnityEngine;
 using System.Collections;
-
 public class GameRotation : MonoBehaviour
 {
     GameObject currentGame;
@@ -11,20 +10,19 @@ public class GameRotation : MonoBehaviour
     float rotationY = 0f;
     public GameObject TVlight;
     bool isStarted =false;
-    //запускается на старте программы
+    //Г§Г ГЇГіГ±ГЄГ ГҐГІГ±Гї Г­Г  Г±ГІГ Г°ГІГҐ ГЇГ°Г®ГЈГ°Г Г¬Г¬Г»
     void Start()
     {
         Vector3 startAngles = currentGame.transform.eulerAngles;
         rotationX = startAngles.y;
         rotationY = startAngles.x;
-
     }
-    //задание игры для взаимодействия
+    //Г§Г Г¤Г Г­ГЁГҐ ГЁГЈГ°Г» Г¤Г«Гї ГўГ§Г ГЁГ¬Г®Г¤ГҐГ©Г±ГІГўГЁГї
     public void SetCurrentGame(GameObject game)
     {
         currentGame = game;
     }
-    //повторяется в течении работы программы
+    //ГЇГ®ГўГІГ®Г°ГїГҐГІГ±Гї Гў ГІГҐГ·ГҐГ­ГЁГЁ Г°Г ГЎГ®ГІГ» ГЇГ°Г®ГЈГ°Г Г¬Г¬Г»
     void Update()
     {   
         if (!gameObject.GetComponent<CameraScroller>().onStart)
@@ -34,7 +32,6 @@ public class GameRotation : MonoBehaviour
             rotationX += mouseX;
             rotationY += mouseY;
             currentGame.transform.rotation = Quaternion.Euler(0f, rotationX, rotationY);
-
             if (Input.GetKeyDown(KeyCode.KeypadEnter))
             {
                 Cursor.visible = true;
@@ -54,7 +51,6 @@ public class GameRotation : MonoBehaviour
                 gameObject.GetComponent<SaveDailyGame>().SaveGame(currentGame.GetComponent<Game>());
             }
         }
-
         if (Input.GetMouseButtonDown(1)&&!isStarted)
         {
             Cursor.visible = true;
@@ -76,12 +72,11 @@ public class GameRotation : MonoBehaviour
             enabled = false;
         }
     }
-    //запуск игры
+    //Г§Г ГЇГіГ±ГЄ ГЁГЈГ°Г»
     IEnumerator LaunchGameSequence()
     {
         TVlight.SetActive(true);
         yield return new WaitForSeconds(3f);
-
         if (currentGame.GetComponent<Game>().isDaily)
         {
             currentGame.transform.position = DailygameSpawner.transform.position;
@@ -92,19 +87,15 @@ public class GameRotation : MonoBehaviour
             currentGame.transform.position = gameSpawner.transform.position;
             currentGame.transform.rotation = gameSpawner.transform.rotation;
         }
-
         Process game = new Process();
         game.StartInfo.FileName = currentGame.GetComponent<Game>().path;
-
         try
         {
             game.Start();
-
             while (!game.HasExited)
             {
                 yield return null;
             }
-
             TVlight.SetActive(false);
             currentGame.GetComponent<BoxCollider>().enabled = true;
             currentGame.GetComponent<Rigidbody>().useGravity = true;
@@ -116,7 +107,6 @@ public class GameRotation : MonoBehaviour
             game.Dispose();
             isStarted = false;
         }
-
         enabled = false;
     }
 }
