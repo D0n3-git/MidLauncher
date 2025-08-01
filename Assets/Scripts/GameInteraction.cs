@@ -1,21 +1,18 @@
-    using UnityEngine;
+using UnityEngine;
 using static UnityEngine.GraphicsBuffer;
-
 public class GameInteraction : MonoBehaviour
 {
     public GameObject GameViewPoint;
     public GameObject DailyGameViewPoint;
-    //повторяется в течении работы программы
+    //ГЇГ®ГўГІГ®Г°ГїГҐГІГ±Гї Гў ГІГҐГ·ГҐГ­ГЁГЁ Г°Г ГЎГ®ГІГ» ГЇГ°Г®ГЈГ°Г Г¬Г¬Г»
     void Update()
     {
         if (Input.GetMouseButtonDown(0) && gameObject.GetComponent<CameraScroller>().GetPoint()!=0)
         {
-
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
             if (Physics.Raycast(ray, out RaycastHit hit))
             {
-
                 Debug.Log("pew!");
                 if (hit.collider.CompareTag("Game"))
                 {
