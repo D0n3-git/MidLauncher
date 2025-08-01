@@ -1,7 +1,6 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
-
 public class Game : MonoBehaviour
 {
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -10,7 +9,7 @@ public class Game : MonoBehaviour
     public Texture2D icon;
     public string path;
     public bool isDaily;
-    //запускается на старте программы
+    //Г§Г ГЇГіГ±ГЄГ ГҐГІГ±Гї Г­Г  Г±ГІГ Г°ГІГҐ ГЇГ°Г®ГЈГ°Г Г¬Г¬Г»
     void Start()
     {
         transform.GetChild(1).GetComponent<TextMeshPro>().text = Name;
