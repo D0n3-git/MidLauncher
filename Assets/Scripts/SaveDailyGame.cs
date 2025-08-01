@@ -1,16 +1,13 @@
 using System.IO;
 using UnityEngine;
-
 public class SaveDailyGame : MonoBehaviour
 {
     DirectoryInfo currentDailyGameDir;
-    
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         currentDailyGameDir = new DirectoryInfo(Application.persistentDataPath + "/DGame");
     }
-
     // Update is called once per frame
     public void SaveGame(Game game)
     {
@@ -39,5 +36,4 @@ public class SaveDailyGame : MonoBehaviour
             break;
         }
     }
-
 }
