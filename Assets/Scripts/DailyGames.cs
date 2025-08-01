@@ -1,13 +1,12 @@
 using System.IO;
 using UnityEngine;
 using System.IO.Compression;
-
 public class DailyGames : MonoBehaviour
 {
     FileInfo currentDailyGameZip;
     public GameObject gamePrefab;
     DirectoryInfo currentDailyGameDir;
-    //запускается на старте программы
+    //Г§Г ГЇГіГ±ГЄГ ГҐГІГ±Гї Г­Г  Г±ГІГ Г°ГІГҐ ГЇГ°Г®ГЈГ°Г Г¬Г¬Г»
     public void UpdateDGame()
     {
         Debug.Log("UwU");
