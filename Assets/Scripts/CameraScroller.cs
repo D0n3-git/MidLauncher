@@ -1,6 +1,5 @@
 using TMPro;
 using UnityEngine;
-
 public class CameraScroller : MonoBehaviour
 {
     public Transform[] points;
@@ -16,13 +15,13 @@ public class CameraScroller : MonoBehaviour
     Quaternion targetRotation;
     Vector3 moveVelocity;
     bool isMoving;
-    //запускается на старте программы
+    //Г§Г ГЇГіГ±ГЄГ ГҐГІГ±Гї Г­Г  Г±ГІГ Г°ГІГҐ ГЇГ°Г®ГЈГ°Г Г¬Г¬Г»
     void Start()
     {
         MoveTo(0);
         Cursor.lockState = CursorLockMode.Confined;
     }
-    //задание точки для плавного перемещение
+    //Г§Г Г¤Г Г­ГЁГҐ ГІГ®Г·ГЄГЁ Г¤Г«Гї ГЇГ«Г ГўГ­Г®ГЈГ® ГЇГҐГ°ГҐГ¬ГҐГ№ГҐГ­ГЁГҐ
     public void MoveTo(int index)
     {
         targetPosition = points[index].position;
@@ -31,7 +30,7 @@ public class CameraScroller : MonoBehaviour
         this.index = index;
         HelpTMP.text = help[index];
     }
-    //повторяется в течении работы программы
+    //ГЇГ®ГўГІГ®Г°ГїГҐГІГ±Гї Гў ГІГҐГ·ГҐГ­ГЁГЁ Г°Г ГЎГ®ГІГ» ГЇГ°Г®ГЈГ°Г Г¬Г¬Г»
     void Update()
     {
         if (index==0)
@@ -75,7 +74,7 @@ public class CameraScroller : MonoBehaviour
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime*Rspeed);
         }
     }
-    //мнговенное перемещение в точку
+    //Г¬Г­ГЈГ®ГўГҐГ­Г­Г®ГҐ ГЇГҐГ°ГҐГ¬ГҐГ№ГҐГ­ГЁГҐ Гў ГІГ®Г·ГЄГі
     public void Teleport(int index)
     {
         transform.position = points[index].position;
@@ -83,7 +82,7 @@ public class CameraScroller : MonoBehaviour
         this.index = index;
         HelpTMP.text = help[index];
     }
-    //получение текщего положения пользователя
+    //ГЇГ®Г«ГіГ·ГҐГ­ГЁГҐ ГІГҐГЄГ№ГҐГЈГ® ГЇГ®Г«Г®Г¦ГҐГ­ГЁГї ГЇГ®Г«ГјГ§Г®ГўГ ГІГҐГ«Гї
     public int GetPoint()
     {
         return index;
